@@ -1,91 +1,53 @@
 import random
 
 def finDelJuego(contadorJugador, contadorComputadora, nombre):
-    if (contadorJugador == 5) and (contadorComputadora < 5):
-        print(f"El ganador es: {nombre}")
-    elif (contadorJugador < 5) and (contadorComputadora == 5):
-        print(f"El ganador es: Computadora")
+    print("Marcador:")
+    print(f"Computadora: {contadorComputadora}")
+    print(f"{nombre}: {contadorJugador}")
 
-def determinarResultado(eleccion, eleccionRobot, nombre):
-    jugador1 = nombre
-    jugador2 = "Computadora"
-    
-    contadorJugador = 0
-    contadorComputadora = 0
-    
+def determinarResultado(eleccion, eleccionRobot, nombre, contadorJugador, contadorComputadora):
     if eleccion == eleccionRobot:
         print("Empate")
-    elif (eleccion == "piedra") and (eleccionRobot == "tijera"):
-        print(f"{jugador1} gana!")
-        contadorJugador += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
-    elif (eleccion == "papel") and (eleccionRobot == "piedra"):
-        print(f"{jugador1} gana!")
-        contadorJugador += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
-    elif (eleccion == "tijera") and (eleccionRobot == "papel"):
-        print(f"{jugador1} gana!")
-        contadorJugador += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
-    elif (eleccion == "piedra") and (eleccionRobot == "papel"):
-        print(f"{jugador2} gana!")
-        contadorComputadora += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
-    elif (eleccion == "papel") and (eleccionRobot == "piedra"):
-        print(f"{jugador2} gana!")
-        contadorComputadora += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
-    elif (eleccion == "tijera") and (eleccionRobot == "papel"):
-        print(f"{jugador2} gana!")
-        contadorComputadora += 1
-        print()
-        print("Marcador: ")
-        print()
-        print(f"Computadora: {contadorComputadora}")
-        print(f"{nombre}: {contadorJugador}")
+    else:
+        if ((eleccion == "piedra" and eleccionRobot == "tijera") or (eleccion == "papel" and eleccionRobot == "piedra") or (eleccion == "tijera" and eleccionRobot == "papel")):
+            print(f"{nombre} gana!")
+            contadorJugador += 1
+        else:
+            print("Computadora gana!")
+            contadorComputadora += 1
+            
+    finDelJuego(contadorJugador, contadorComputadora, nombre)
     return contadorJugador, contadorComputadora
 
 def eleccionComputadora():
     opciones = ["piedra", "papel", "tijera"]
-    eleccionRobot = random.choice(opciones)
-    return eleccionRobot
+    return random.choice(opciones)
 
 def eleccionUsuario():
-    nombre = str(input("Ingrese su nombre para iniciar el juego: "))
-    print(f"Bienvenidx, {nombre}!")
-    eleccion = str(input("Ingrese su eleccion: ").lower())
+    eleccion = input("Ingrese su eleccion (piedra, papel o tijera): ").lower()
     
     while (eleccion != "piedra") and (eleccion != "papel") and (eleccion != "tijera"):
         print("Por favor ingrese una respuesta valida.")
-        eleccion = str(input("Ingrese su eleccion (piedra, papel o tijera): "))
-    return eleccion, nombre
+        eleccion = input("Ingrese su eleccion (piedra, papel o tijera): ")
+    return eleccion
     
 def main():
-    eleccion, nombre = eleccionUsuario()
-    eleccionRobot = eleccionComputadora()
-    print()
-    print(f"Usuario: {eleccion}")
-    print(f"Computadora: {eleccionRobot}")
-    contadorJugador, contadorComputadora = determinarResultado(eleccion, eleccionRobot, nombre)
-    finDelJuego(contadorJugador, contadorComputadora, nombre)
+    nombre = input("Ingrese su nombre para iniciar el juego: ")
+    print(f"Bienvenidx, {nombre}!")
+    
+    contadorJugador = 0
+    contadorComputadora = 0
+    
+    while contadorJugador < 5 and contadorComputadora < 5:
+        eleccion = eleccionUsuario()
+        eleccionRobot = eleccionComputadora()
+        print(f"\nUsuario: {eleccion}")
+        print(f"Computadora: {eleccionRobot}")
+        
+        contadorJugador, contadorComputadora = determinarResultado(eleccion, eleccionRobot, nombre, contadorJugador, contadorComputadora)
+        
+    if contadorJugador == 5:
+        print(f"El ganador es: {nombre}")
+    elif contadorComputadora == 5:
+        print("El ganador es: Computadora")
 main()
